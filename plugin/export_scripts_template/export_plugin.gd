@@ -17,7 +17,7 @@ func _exit_tree():
 
 
 class AndroidExportPlugin extends EditorExportPlugin:
-	var _plugin_name = "Godot_NFCTagReader"
+	var _plugin_name = "GodotNFCReader"
 
 	func _supports_platform(platform):
 		if platform is EditorExportPlatformAndroid:

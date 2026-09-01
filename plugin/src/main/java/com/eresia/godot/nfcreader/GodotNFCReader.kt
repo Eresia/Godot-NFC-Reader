@@ -1,18 +1,17 @@
-package com.eresia.godot.nfctagreader
+package com.eresia.godot.nfcreader
 
 import android.nfc.NfcAdapter
 import android.nfc.Tag
 import android.util.Log
 import android.widget.Toast
-import com.eresia.godot.nfctagreader.BuildConfig
 import org.godotengine.godot.Godot
 import org.godotengine.godot.plugin.GodotPlugin
 import org.godotengine.godot.plugin.SignalInfo
 import org.godotengine.godot.plugin.UsedByGodot
 
-class TagReader(godotPlugin: Godot_NFCTagReader) : NfcAdapter.ReaderCallback {
+class NfcReader(godotPlugin: GodotNFCReader) : NfcAdapter.ReaderCallback {
 
-	private val godotPlugin : Godot_NFCTagReader
+	private val godotPlugin : GodotNFCReader
 
 	init {
 	    this.godotPlugin = godotPlugin
@@ -20,7 +19,7 @@ class TagReader(godotPlugin: Godot_NFCTagReader) : NfcAdapter.ReaderCallback {
 
 	override fun onTagDiscovered(tag: Tag?) {
 		if(tag != null) {
-			godotPlugin.onTagRead(tag)
+			godotPlugin.onRead(tag)
 		}
 		else {
 			Log.e(godotPlugin.pluginName, "Tag is null")
@@ -28,7 +27,7 @@ class TagReader(godotPlugin: Godot_NFCTagReader) : NfcAdapter.ReaderCallback {
 	}
 }
 
-class Godot_NFCTagReader(godot: Godot) : GodotPlugin(godot) {
+class GodotNFCReader(godot: Godot) : GodotPlugin(godot) {
 
 	companion object {
 		val READ_TAG_SIGNAL = SignalInfo("read_tag_data", String::class.java)
@@ -44,7 +43,7 @@ class Godot_NFCTagReader(godot: Godot) : GodotPlugin(godot) {
 
 	private var nfcAdapter : NfcAdapter? = null
 	private var nfcStatus = 0
-	private val tagReader : TagReader = TagReader(this)
+	private val nfcReader : NfcReader = NfcReader(this)
 
 	@UsedByGodot
 	private fun getNFCStatus() : Int
@@ -74,7 +73,7 @@ class Godot_NFCTagReader(godot: Godot) : GodotPlugin(godot) {
 		inactivateNfc()
 	}
 
-	public fun onTagRead(tag : Tag) {
+	public fun onRead(tag : Tag) {
 		var tagIdName : String = "";
 
 		for(byte in tag.id) {
@@ -93,7 +92,7 @@ class Godot_NFCTagReader(godot: Godot) : GodotPlugin(godot) {
 			return
 		}
 
-		nfcAdapter!!.enableReaderMode(activity, tagReader,
+		nfcAdapter!!.enableReaderMode(activity, nfcReader,
 			NfcAdapter.FLAG_READER_NO_PLATFORM_SOUNDS or
 					NfcAdapter.FLAG_READER_NFC_A or
 					NfcAdapter.FLAG_READER_NFC_B or

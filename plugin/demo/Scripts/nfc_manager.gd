@@ -9,8 +9,8 @@ var nfc: Object = null
 func _ready() -> void:
 	print("Launching NFC")
 	
-	if Engine.has_singleton("Godot_NFCTagReader"):
-		nfc = Engine.get_singleton("Godot_NFCTagReader")
+	if Engine.has_singleton("GodotNFCReader"):
+		nfc = Engine.get_singleton("GodotNFCReader")
 	
 	if not nfc:
 		log_debug("Failed getting NFC singleton")

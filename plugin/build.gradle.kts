@@ -1,24 +1,25 @@
 import com.android.build.gradle.internal.tasks.factory.dependsOn
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
 }
 
-val pluginName = "Godot_NFCTagReader"
+val pluginName = "GodotNFCReader"
 
-val pluginPackageName = "com.eresia.godot.nfctagreader"
+val pluginPackageName = "com.eresia.godot.nfcreader"
 
 android {
     namespace = pluginPackageName
-    compileSdk = 33
+    compileSdk = 36
 
     buildFeatures {
         buildConfig = true
     }
 
     defaultConfig {
-        minSdk = 21
+        minSdk = 24
 
         manifestPlaceholders["godotPluginName"] = pluginName
         manifestPlaceholders["godotPluginPackageName"] = pluginPackageName
@@ -30,13 +31,15 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = "17"
+    kotlin {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_17)
+        }
     }
 }
 
 dependencies {
-    implementation("org.godotengine:godot:4.2.0.stable")
+    implementation("org.godotengine:godot:4.5.1.stable")
     // TODO: Additional dependencies should be added to export_plugin.gd as well.
 }
 

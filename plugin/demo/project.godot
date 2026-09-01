@@ -10,14 +10,18 @@ config_version=5
 
 [application]
 
-config/name="Godot NFC Tag Reader"
+config/name="Godot NFC Reader"
 run/main_scene="res://Scenes/Main_Scene.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/Godot_NFCTagReader/plugin.cfg")
+enabled=PackedStringArray("res://addons/GodotNFCReader/plugin.cfg")
+
+[debug]
+
+settings/stdout/verbose_stdout=true
 
 [rendering]
 

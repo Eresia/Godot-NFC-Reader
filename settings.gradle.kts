@@ -5,15 +5,18 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+plugins {
+    id("org.gradle.toolchains.foojay-resolver-convention") version "0.10.0"
+}
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google()
         mavenCentral()
         maven("https://plugins.gradle.org/m2/")
-        maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+        maven("https://central.sonatype.com/repository/maven-snapshots/")
     }
 }
 
-rootProject.name = "Godot_NFCTagReader"
+rootProject.name = "GodotNFCReader"
 include(":plugin")

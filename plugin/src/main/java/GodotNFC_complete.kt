@@ -15,7 +15,7 @@ import org.godotengine.godot.plugin.GodotPlugin
 import org.godotengine.godot.plugin.SignalInfo
 import org.godotengine.godot.plugin.UsedByGodot
 
-class TagReader(godotNFC: GodotNFC) : NfcAdapter.ReaderCallback {
+class NfcReader(godotNFC: GodotNFC) : NfcAdapter.ReaderCallback {
 
 	private val godotNFC : GodotNFC
 
@@ -25,7 +25,7 @@ class TagReader(godotNFC: GodotNFC) : NfcAdapter.ReaderCallback {
 
 	override fun onTagDiscovered(tag: Tag?) {
 		if(tag != null) {
-			godotNFC.onTagRead(tag)
+			godotNFC.onRead(tag)
 		}
 		else {
 			Log.e(godotNFC.pluginName, "Tag is null")
@@ -70,7 +70,7 @@ class GodotNFC(godot: Godot) : GodotPlugin(godot) {
 	private var nfcStatus = 0
 	private var usingCompleteMode : Boolean = false
 
-	private val tagReader : TagReader = TagReader(this)
+	private val nfcReader : NfcReader = NfcReader(this)
 	private var queuedWriteData : ByteArray? = null
 
 	@UsedByGodot
@@ -120,7 +120,7 @@ class GodotNFC(godot: Godot) : GodotPlugin(godot) {
 		}
 	}
 
-	public fun onTagRead(tag : Tag) {
+	public fun onRead(tag : Tag) {
 		emitSignal(READ_TAG_SIGNAL.name, tag.id.toString())
 	}
 
@@ -233,7 +233,7 @@ class GodotNFC(godot: Godot) : GodotPlugin(godot) {
 			nfcAdapter!!.enableForegroundDispatch(activity, pendingIntent, null, null)
 		}
 		else {
-			nfcAdapter!!.enableReaderMode(activity, tagReader,
+			nfcAdapter!!.enableReaderMode(activity, nfcReader,
 				NfcAdapter.FLAG_READER_NO_PLATFORM_SOUNDS or
 						NfcAdapter.FLAG_READER_NFC_A or
 						NfcAdapter.FLAG_READER_NFC_B or
