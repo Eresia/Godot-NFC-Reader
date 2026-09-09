@@ -117,7 +117,7 @@ class GodotNFCReader(godot: Godot) : GodotPlugin(godot) {
 	}
 
 	private fun logAndNotifyDebug(data : String) {
-		runOnUiThread {
+		runOnHostThread {
 			Toast.makeText(activity, data, Toast.LENGTH_LONG).show()
 		}
 
