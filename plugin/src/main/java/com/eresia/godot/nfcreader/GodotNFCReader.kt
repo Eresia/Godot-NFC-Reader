@@ -1,9 +1,12 @@
 package com.eresia.godot.nfcreader
 
+import android.Manifest
 import android.nfc.NfcAdapter
 import android.nfc.Tag
+import android.os.Build
 import android.util.Log
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import org.godotengine.godot.Godot
 import org.godotengine.godot.plugin.GodotPlugin
 import org.godotengine.godot.plugin.SignalInfo
@@ -53,6 +56,14 @@ class GodotNFCReader(godot: Godot) : GodotPlugin(godot) {
 
 	@UsedByGodot
 	private fun enableNFC() {
+		val activity = activity ?: return
+
+		val permissionArray = arrayOf<String?>(
+			Manifest.permission.NFC
+		)
+
+		ActivityCompat.requestPermissions(activity, permissionArray, 0)
+
 		nfcAdapter = NfcAdapter.getDefaultAdapter(activity)
 		activateNfc()
 	}

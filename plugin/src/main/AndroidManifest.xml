@@ -7,4 +7,6 @@
             android:value="${godotPluginPackageName}.GodotNFCReader"/>
     </application>
 
+    <uses-permission android:name="android.permission.NFC"/>
+
 </manifest>
